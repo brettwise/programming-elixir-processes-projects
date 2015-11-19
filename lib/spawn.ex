@@ -3,6 +3,7 @@ defmodule Spawn3 do
     receive do
       {sender, msg} ->
         send sender, {:ok, "Hello, from one asshole to another #{msg}"}
+        greet
     end
   end
 end
