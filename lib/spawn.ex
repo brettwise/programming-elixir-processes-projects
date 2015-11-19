@@ -1,4 +1,4 @@
-defmodule Spawn2 do
+defmodule Spawn3 do
   def greet do
     receive do
       {sender, msg} ->
@@ -6,15 +6,21 @@ defmodule Spawn2 do
     end
   end
 end
+
 # here's a client
-pid = spawn(Spawn2, :greet, [])
+pid = spawn(Spawn3, :greet, [])
+
 send pid, {self, "asshole!"}
 receive do
   {:ok, message} ->
     IO.puts message
 end
+
 send pid, {self, "ass... I mean good guy."}
 receive do
   {:ok, message} ->
     IO.puts message
+
+  after 500 ->
+    IO.puts "The greeter has gone away."
 end
