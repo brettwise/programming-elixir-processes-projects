@@ -1,19 +1,18 @@
 defmodule Monitor do
-  import :timer, only: [sleep: 1]
 
-  def sad_method do
-    sleep 500
-    exit(:boom)
+  def notify_parent(parents_pid) do
+    send(parents_pid, "WAT!")
+    exit(:bow)
   end
 
   def run do
-    res = spawn_monitor(Monitor, :sad_method, [])
-    IO.puts inspect res
+    spawn_monitor(Monitor, :notify_parent, [self])
     receive do
       msg ->
-        IO.puts "Message received: #{inspect msg}"
-    after 1000 ->
-      IO.puts "Nothing happened as far as I am concerned"
+        IO.puts "Got it: #{inspect msg}"
+    after 500 ->
+      IO.puts "Never got anything. What's up?"
+      exit :ok
     end
   end
 end

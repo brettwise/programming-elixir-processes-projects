@@ -1,7 +1,7 @@
 defmodule TwoPs do
   def run do
     create_process("fred")
-    send_messages("betty")
+    create_process("betty")
   end
 
   def process_bouncer(client) do
@@ -19,9 +19,5 @@ defmodule TwoPs do
     receive do
       response -> IO.puts inspect response
     end
-  end
-
-  def send_messages(p, message) do
-    send(p, message)
   end
 end
